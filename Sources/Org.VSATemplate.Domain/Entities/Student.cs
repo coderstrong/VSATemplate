@@ -1,5 +1,5 @@
 ﻿using MakeSimple.SharedKernel.Contract;
-using System.Collections.Generic;
+using System;
 
 namespace Org.VSATemplate.Domain.Entities
 {
@@ -9,6 +9,7 @@ namespace Org.VSATemplate.Domain.Entities
 
         public string Note { get; set; }
 
-        public virtual ICollection<Student> Classes { get; set; }
+        public virtual Class Class { get; set; }
+        public Guid ClassId { get; set; }
     }
 }
