@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Org.VSATemplate.Application\Org.VSATemplate.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

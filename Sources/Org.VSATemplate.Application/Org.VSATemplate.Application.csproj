@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\" />
+    <Folder Include="Features\Classes\" />
+    <Folder Include="Features\Students\" />
   </ItemGroup>
 
 </Project>
