@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Org.VSATemplate.Domain\Org.VSATemplate.Domain.csproj" />
+    <ProjectReference Include="..\Org.VSATemplate.Infrastructure\Org.VSATemplate.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\" />
+  </ItemGroup>
+
+</Project>
