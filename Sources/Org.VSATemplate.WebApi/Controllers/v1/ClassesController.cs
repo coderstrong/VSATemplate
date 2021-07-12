@@ -1,28 +1,53 @@
-﻿using MakeSimple.SharedKernel.Contract;
-using MakeSimple.SharedKernel.Infrastructure.Api;
-using MakeSimple.SharedKernel.Infrastructure.DTO;
+﻿using MakeSimple.SharedKernel.Infrastructure.Api;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Org.VSATemplate.Domain.Entities;
-using Org.VSATemplate.Infrastructure.Database;
+using Org.VSATemplate.Application.Features.Students;
+using Org.VSATemplate.Domain.Dtos.Student;
 using System.Threading.Tasks;
 
 namespace Org.VSATemplate.WebApi.Controllers.v1
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class ClassesController : ControllerBase
+    public class ClassesController : ControllerApiBase
     {
-        private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _student;
+        private readonly IMediator _mediator;
 
-        public ClassesController(IAuditRepositoryGeneric<CoreDBContext, Student> student)
+        public ClassesController(IMediator mediator)
         {
-            _student = student;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var a = await _student.ToListAsync();
+            return Ok();
+            //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
+        }
+
+        [ApiVersion("1.0")]
+        [ProducesResponseType(typeof(StudentForCreationDto), 200)]
+        [ProducesResponseType(typeof(bool), 400)]
+        [HttpPost]
+        public async Task<IActionResult> Post(StudentForCreationDto student)
+        {
+            var comand = new AddStudent.AddStudentCommand(student);
+            var result = await _mediator.Send(comand);
+            return Ok(result);
+            //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
+        }
+
+        [ApiVersion("2.0")]
+        [HttpPut]
+        public async Task<IActionResult> Put()
+        {
+            return Ok();
+            //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
+        }
+
+        [ApiVersion("2.0")]
+        [HttpDelete]
+        public async Task<IActionResult> Delete()
+        {
             return Ok();
             //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
         }

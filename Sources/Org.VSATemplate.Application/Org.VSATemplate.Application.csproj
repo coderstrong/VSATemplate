@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Classes\" />
-    <Folder Include="Features\Students\" />
+    <Folder Include="Features\Students\Validators\" />
   </ItemGroup>
 
 </Project>
