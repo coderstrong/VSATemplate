@@ -1,5 +1,6 @@
 ﻿using MakeSimple.SharedKernel.Infrastructure.Api;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Org.VSATemplate.Application.Features.Students;
 using Org.VSATemplate.Domain.Dtos.Student;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace Org.VSATemplate.WebApi.Controllers.v1
 {
     [ApiController]
+    [ApiVersion("1")]
     public class ClassesController : ControllerApiBase
     {
         private readonly IMediator _mediator;
@@ -18,34 +20,35 @@ namespace Org.VSATemplate.WebApi.Controllers.v1
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             return Ok();
             //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
         }
 
-        [ApiVersion("1.0")]
         [ProducesResponseType(typeof(StudentForCreationDto), 200)]
         [ProducesResponseType(typeof(bool), 400)]
         [HttpPost]
-        public async Task<IActionResult> Post(StudentForCreationDto student)
+        [AllowAnonymous]
+        public async Task<IActionResult> Post(AddStudentCommand student)
         {
-            var comand = new AddStudent.AddStudentCommand(student);
-            var result = await _mediator.Send(comand);
+            var result = await _mediator.Send(student);
             return Ok(result);
             //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
         }
 
-        [ApiVersion("2.0")]
         [HttpPut]
+        [AllowAnonymous]
         public async Task<IActionResult> Put()
         {
             return Ok();
             //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
         }
 
-        [ApiVersion("2.0")]
+        
         [HttpDelete]
+        [AllowAnonymous]
         public async Task<IActionResult> Delete()
         {
             return Ok();

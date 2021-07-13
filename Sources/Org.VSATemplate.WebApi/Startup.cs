@@ -12,6 +12,8 @@ using Org.VSATemplate.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using MakeSimple.Logging;
+using Org.VSATemplate.WebApi.Configs;
 
 namespace Org.VSATemplate.WebApi
 {
@@ -24,68 +26,25 @@ namespace Org.VSATemplate.WebApi
             services.AddRestClientCore();
             services.AddMediaRModule(new MediaROptions()
             {
+                OnValidatorPipeline = true,
                 EndWithPattern = new List<string>() { ".Application" }
             });
             services.AddEfDbContext<CoreDBContext>();
-
-            MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
+            
+            services.AddMakeSimpleLoging(new LoggingOption()
             {
-                mc.AddProfile(new StudentProfile());
+                IsOffLogSystem = false,
+                IsOutputJson = false,
+                MinimumLevel = LoggerLevel.Information
             });
 
-            services.AddSingleton(mappingConfig.CreateMapper());
+            services.AddSwagger();
+            services.AddAuthenticationExtension();
+            services.AddApiVersioningExtension();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            {
-
-            });
-
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddControllers();
-            var version = Assembly.GetEntryAssembly().GetName().Version.ToString();
-
-            services.AddApiVersioning(config =>
-            {
-                // Specify the default API Version as 1.0
-                config.DefaultApiVersion = new ApiVersion(1, 0);
-
-                // If the client hasn't specified the API version in the request, use the default API version number
-                config.AssumeDefaultVersionWhenUnspecified = true;
-
-                // Advertise the API versions supported for the particular endpoint
-                config.ReportApiVersions = true;
-            });
-            services.AddSwaggerGen(s =>
-            {
-                s.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "ProjectName",
-                    Version = version
-                });
-                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please insert JWT with Bearer into field",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-                s.AddSecurityRequirement(new OpenApiSecurityRequirement {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-                });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
-                s.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,16 +55,11 @@ namespace Org.VSATemplate.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwaggerDocs();
+            app.UseExceptionHandlerCore();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("v1/swagger.json", "My API V1");
-                c.RoutePrefix = "swagger";
-                c.DefaultModelsExpandDepth(-1);
-            });
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

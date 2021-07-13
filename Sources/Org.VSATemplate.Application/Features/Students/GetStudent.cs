@@ -10,17 +10,16 @@ using System.Threading.Tasks;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
-    public class AddStudentCommand : StudentForCreationDto, IRequest<StudentDto>
+    public class StudentQuery : StudentForCreationDto, IRequest<StudentDto>
     {
-
     }
 
-    public class AddStudentHandler : IRequestHandler<AddStudentCommand, StudentDto>
+    public class StudentQueryHandler : IRequestHandler<StudentQuery, StudentDto>
     {
         private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _repository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public AddStudentHandler(IAuditRepositoryGeneric<CoreDBContext, Student> repository
+        public StudentQueryHandler(IAuditRepositoryGeneric<CoreDBContext, Student> repository
             , IMapper mapper
             , IHttpContextAccessor httpContextAccessor)
         {
@@ -29,7 +28,7 @@ namespace Org.VSATemplate.Application.Features.Students
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<StudentDto> Handle(AddStudentCommand request, CancellationToken cancellationToken)
+        public async Task<StudentDto> Handle(StudentQuery request, CancellationToken cancellationToken)
         {
             var student = _mapper.Map<Student>(request);
             _repository.Insert(student);

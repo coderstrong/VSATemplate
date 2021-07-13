@@ -9,9 +9,4 @@
     <ProjectReference Include="..\Org.VSATemplate.Infrastructure\Org.VSATemplate.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Classes\" />
-    <Folder Include="Features\Students\Validators\" />
-  </ItemGroup>
-
 </Project>

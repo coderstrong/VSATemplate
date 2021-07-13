@@ -12,11 +12,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MakeSimple.Logging" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Org.VSATemplate.Application\Org.VSATemplate.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Logs\" />
   </ItemGroup>
 
 </Project>

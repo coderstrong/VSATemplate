@@ -9,11 +9,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F85EB5FF-F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Org.VSATemplate.Domain", "Sources\Org.VSATemplate.Domain\Org.VSATemplate.Domain.csproj", "{D5447464-01C9-42CE-A5D9-706460C6D8E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Org.VSATemplate.Application", "Sources\Org.VSATemplate.Application\Org.VSATemplate.Application.csproj", "{AE66C611-6A81-457D-AD24-D028913D1B25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Org.VSATemplate.Application", "Sources\Org.VSATemplate.Application\Org.VSATemplate.Application.csproj", "{AE66C611-6A81-457D-AD24-D028913D1B25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Org.VSATemplate.Infrastructure", "Sources\Org.VSATemplate.Infrastructure\Org.VSATemplate.Infrastructure.csproj", "{67AA978D-6DD4-40DB-BF19-367479772A74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Org.VSATemplate.Infrastructure", "Sources\Org.VSATemplate.Infrastructure\Org.VSATemplate.Infrastructure.csproj", "{67AA978D-6DD4-40DB-BF19-367479772A74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Org.VSATemplate.WebApi", "Sources\Org.VSATemplate.WebApi\Org.VSATemplate.WebApi.csproj", "{DC68C132-FCE2-4455-8B3D-DAA938C0EB1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Org.VSATemplate.WebApi", "Sources\Org.VSATemplate.WebApi\Org.VSATemplate.WebApi.csproj", "{DC68C132-FCE2-4455-8B3D-DAA938C0EB1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EDF85DEB-CBDB-456D-969E-02639034255C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		CHANGELOG.md = CHANGELOG.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
