@@ -12,7 +12,6 @@ namespace Org.VSATemplate.Application.Features.Students
 {
     public class AddStudentCommand : StudentForCreationDto, IRequest<StudentDto>
     {
-
     }
 
     public class AddStudentHandler : IRequestHandler<AddStudentCommand, StudentDto>
@@ -20,6 +19,7 @@ namespace Org.VSATemplate.Application.Features.Students
         private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _repository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+
         public AddStudentHandler(IAuditRepositoryGeneric<CoreDBContext, Student> repository
             , IMapper mapper
             , IHttpContextAccessor httpContextAccessor)

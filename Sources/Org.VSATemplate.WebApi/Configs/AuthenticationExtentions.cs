@@ -10,7 +10,6 @@ namespace Org.VSATemplate.WebApi.Configs
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-
             });
             return services;
         }

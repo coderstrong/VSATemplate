@@ -1,19 +1,14 @@
 using AutoMapper;
+using MakeSimple.Logging;
 using MakeSimple.SharedKernel.Infrastructure.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using Org.VSATemplate.Application.Features.Students.Mappings;
 using Org.VSATemplate.Infrastructure.Database;
-using System;
+using Org.VSATemplate.WebApi.Configs;
 using System.Collections.Generic;
 using System.Reflection;
-using MakeSimple.Logging;
-using Org.VSATemplate.WebApi.Configs;
 
 namespace Org.VSATemplate.WebApi
 {
@@ -30,20 +25,20 @@ namespace Org.VSATemplate.WebApi
                 EndWithPattern = new List<string>() { ".Application" }
             });
             services.AddEfDbContext<CoreDBContext>();
-            
+
             services.AddMakeSimpleLoging(new LoggingOption()
             {
-                IsOffLogSystem = false,
+                IsOffLogSystem = true,
                 IsOutputJson = false,
                 MinimumLevel = LoggerLevel.Information
             });
 
             services.AddSwagger();
+            services.AddHealthChecks();
             services.AddAuthenticationExtension();
             services.AddApiVersioningExtension();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddControllers();
         }
 
@@ -54,14 +49,15 @@ namespace Org.VSATemplate.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseSwaggerDocs();
+            app.UseExceptionHandler("/Error");
             app.UseExceptionHandlerCore();
+            app.UseSwaggerDocs();
             app.UseRouting();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
             });
         }

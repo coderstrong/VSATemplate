@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Org.VSATemplate.WebApi.Controllers.v1
 {
     [ApiController]
-    [ApiVersion("1")]
+    [ApiVersion("1.0")]
     public class ClassesController : ControllerApiBase
     {
         private readonly IMediator _mediator;
@@ -46,7 +46,6 @@ namespace Org.VSATemplate.WebApi.Controllers.v1
             //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
         }
 
-        
         [HttpDelete]
         [AllowAnonymous]
         public async Task<IActionResult> Delete()

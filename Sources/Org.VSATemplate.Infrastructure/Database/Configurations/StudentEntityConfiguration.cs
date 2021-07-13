@@ -4,7 +4,7 @@ using Org.VSATemplate.Domain.Entities;
 
 namespace Org.VSATemplate.Infrastructure.Database.Configurations
 {
-    class StudentEntityConfiguration : IEntityTypeConfiguration<Student>
+    internal class StudentEntityConfiguration : IEntityTypeConfiguration<Student>
     {
         public void Configure(EntityTypeBuilder<Student> builder)
         {

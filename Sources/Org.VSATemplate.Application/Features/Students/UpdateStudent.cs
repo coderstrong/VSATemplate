@@ -19,6 +19,7 @@ namespace Org.VSATemplate.Application.Features.Students
         private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _repository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+
         public UpdateStudentHandler(IAuditRepositoryGeneric<CoreDBContext, Student> repository
             , IMapper mapper
             , IHttpContextAccessor httpContextAccessor)
