@@ -2,7 +2,7 @@
 using MakeSimple.SharedKernel.Contract;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Org.VSATemplate.Domain.Dtos.Student;
+using Org.VSATemplate.Domain.Students.Dtos;
 using Org.VSATemplate.Domain.Entities;
 using Org.VSATemplate.Infrastructure.Database;
 using System.Threading;
@@ -10,8 +10,9 @@ using System.Threading.Tasks;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
-    public class StudentListQuery : IRequest<StudentDto>
+    public class StudentListQuery : StudentParametersDto, IRequest<StudentDto>
     {
+
     }
 
     public class StudentListQueryHandler : IRequestHandler<StudentListQuery, StudentDto>

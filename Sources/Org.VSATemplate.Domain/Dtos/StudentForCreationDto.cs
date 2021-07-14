@@ -1,4 +1,4 @@
-﻿namespace Org.VSATemplate.Domain.Dtos.Student
+﻿namespace Org.VSATemplate.Domain.Students.Dtos
 {
     public class StudentForCreationDto : StudentForManipulationDto
     {

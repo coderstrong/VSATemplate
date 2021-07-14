@@ -12,6 +12,7 @@ namespace Org.VSATemplate.Application.Features.Students
 {
     public class PatchStudentCommand : IRequest<Response<bool>>
     {
+        public long Id { get; set; }
     }
 
     public class PatchStudentHandler : IRequestHandler<PatchStudentCommand, Response<bool>>

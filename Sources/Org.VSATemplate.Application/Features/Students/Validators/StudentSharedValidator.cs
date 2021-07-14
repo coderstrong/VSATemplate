@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Org.VSATemplate.Domain.Dtos.Student;
+using Org.VSATemplate.Domain.Students.Dtos;
 
-namespace Org.VSATemplate.Application.Features.Students.Validators
+namespace Org.VSATemplate.Domain.Students.Validators
 {
     public class StudentSharedValidator<T> : AbstractValidator<T> where T : StudentForManipulationDto
     {
@@ -9,6 +9,7 @@ namespace Org.VSATemplate.Application.Features.Students.Validators
         {
             // add fluent validation rules that should be shared between creation and update operations here
             //https://fluentvalidation.net/
+
         }
     }
 }

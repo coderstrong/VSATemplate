@@ -38,7 +38,6 @@ namespace Org.VSATemplate.WebApi
             services.AddAuthenticationExtension();
             services.AddApiVersioningExtension();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
             services.AddControllers();
         }
 

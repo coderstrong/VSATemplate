@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using MakeSimple.SharedKernel.Contract;
+using MakeSimple.SharedKernel.Infrastructure.DTO;
+using MakeSimple.SharedKernel.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Org.VSATemplate.Domain.Dtos.Student;
 using Org.VSATemplate.Domain.Entities;
 using Org.VSATemplate.Infrastructure.Database;
 using System.Threading;
@@ -10,11 +11,12 @@ using System.Threading.Tasks;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
-    public class DeleteStudentCommand : StudentForCreationDto, IRequest<StudentDto>
+    public class DeleteStudentCommand: IRequest<IResponse<bool>>
     {
+        public long Id { get; set; }
     }
 
-    public class DeleteStudentHandler : IRequestHandler<DeleteStudentCommand, StudentDto>
+    public class DeleteStudentHandler : IRequestHandler<DeleteStudentCommand, IResponse<bool>>
     {
         private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _repository;
         private readonly IMapper _mapper;
@@ -29,18 +31,11 @@ namespace Org.VSATemplate.Application.Features.Students
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<StudentDto> Handle(DeleteStudentCommand request, CancellationToken cancellationToken)
+        public async Task<IResponse<bool>> Handle(DeleteStudentCommand request, CancellationToken cancellationToken)
         {
             var student = _mapper.Map<Student>(request);
-            _repository.Insert(student);
-            if (await _repository.UnitOfWork.SaveEntitiesAsync())
-            {
-                return _mapper.Map<StudentDto>(student);
-            }
-            else
-            {
-                return null;
-            }
+            await _repository.DeleteAsync(student);
+            return new Response<bool>(await _repository.UnitOfWork.SaveEntitiesAsync());
         }
     }
 }
