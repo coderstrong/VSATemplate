@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Org.VSATemplate.Application.Features.Students;
-using Org.VSATemplate.Domain.Students.Dtos;
+using Org.VSATemplate.Domain.Dtos.Student;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,9 +32,9 @@ namespace Org.VSATemplate.WebApi.Controllers.v1
         /// <summary>
         /// Gets a list of all Ingredients.
         /// </summary>
-        /// <response code="200">Ingredient list returned successfully.</response>
-        /// <response code="400">Ingredient has missing/invalid values.</response>
-        /// <response code="500">There was an error on the server while creating the Ingredient.</response>
+        /// <response code="200">Student list returned successfully.</response>
+        /// <response code="400">Student has missing/invalid values.</response>
+        /// <response code="500">There was an error on the server while proccess.</response>
         /// <remarks>
         /// Requests can be narrowed down with a variety of query string values:
         /// ## Query String Parameters
@@ -59,7 +59,7 @@ namespace Org.VSATemplate.WebApi.Controllers.v1
         /// </remarks>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Get([FromQuery] StudentListQuery query)
+        public async Task<IActionResult> Get([FromQuery] PaginationQueryt query)
         {
             return Ok();
             //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });

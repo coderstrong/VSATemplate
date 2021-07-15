@@ -1,7 +1,7 @@
 ﻿using MakeSimple.SharedKernel.Contract;
 using MakeSimple.SharedKernel.Wrappers;
 using MediatR;
-using Org.VSATemplate.Domain.Students.Dtos;
+using Org.VSATemplate.Domain.Dtos.Student;
 using Org.VSATemplate.Domain.Entities;
 using Org.VSATemplate.Infrastructure.Database;
 using System.Threading;

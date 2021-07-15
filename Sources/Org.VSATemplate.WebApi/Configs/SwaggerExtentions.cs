@@ -10,14 +10,15 @@ namespace Org.VSATemplate.WebApi.Configs
     {
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            var version = Assembly.GetEntryAssembly().GetName().Version.ToString();
+            var assembly = Assembly.GetEntryAssembly();
 
             services.AddSwaggerGen(s =>
             {
                 s.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "ProjectName",
-                    Version = version
+                    Version = $"v{assembly.GetName().Version.ToString()}",
+                    //Description = $"Deployed at {assembly.GetCreationTime().ToString("dd/MM/yyyy HH:mm:ssK")}"
                 });
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -52,7 +53,7 @@ namespace Org.VSATemplate.WebApi.Configs
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("v1/swagger.json", "ProjectName v1");
                 c.RoutePrefix = "swagger";
                 c.DefaultModelsExpandDepth(-1);
             });

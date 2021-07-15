@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Org.VSATemplate.Domain.Students.Dtos;
+using Org.VSATemplate.Domain.Dtos.Student;
 using Org.VSATemplate.Domain.Entities;
 
 namespace Org.VSATemplate.Domain.Students.Mappings

@@ -5,7 +5,7 @@ using MakeSimple.SharedKernel.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Org.VSATemplate.Domain.Entities;
-using Org.VSATemplate.Domain.Students.Dtos;
+using Org.VSATemplate.Domain.Dtos.Student;
 using Org.VSATemplate.Infrastructure.Database;
 using System.Threading;
 using System.Threading.Tasks;

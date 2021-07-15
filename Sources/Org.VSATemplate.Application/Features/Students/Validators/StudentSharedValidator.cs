@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Org.VSATemplate.Domain.Students.Dtos;
+using Org.VSATemplate.Domain.Dtos.Student;
 
 namespace Org.VSATemplate.Domain.Students.Validators
 {
