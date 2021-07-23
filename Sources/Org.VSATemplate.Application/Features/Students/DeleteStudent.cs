@@ -18,11 +18,11 @@ namespace Org.VSATemplate.Application.Features.Students
 
     public class DeleteStudentHandler : IRequestHandler<DeleteStudentCommand, IResponse<bool>>
     {
-        private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _repository;
+        private readonly IAuditRepository<CoreDBContext, Student> _repository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public DeleteStudentHandler(IAuditRepositoryGeneric<CoreDBContext, Student> repository
+        public DeleteStudentHandler(IAuditRepository<CoreDBContext, Student> repository
             , IMapper mapper
             , IHttpContextAccessor httpContextAccessor)
         {

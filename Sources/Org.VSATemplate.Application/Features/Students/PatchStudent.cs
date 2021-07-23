@@ -1,47 +1,64 @@
 ﻿using AutoMapper;
-using MakeSimple.SharedKernel.Contract;
-using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Org.VSATemplate.Domain.Entities;
-using Org.VSATemplate.Infrastructure.Database;
+using Microsoft.AspNetCore.JsonPatch;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
+    using MakeSimple.SharedKernel.Contract;
+    using MakeSimple.SharedKernel.Infrastructure.DTO;
+    using Org.VSATemplate.Application.Features.Students.Validators;
+    using Org.VSATemplate.Domain.Dtos.Student;
+    using Org.VSATemplate.Domain.Entities;
+    using Org.VSATemplate.Infrastructure.Database;
+
     public class PatchStudentCommand : IRequest<Response<bool>>
     {
-        public long Id { get; set; }
+        public long StudentId { get; set; }
+        public JsonPatchDocument<StudentForUpdateDto> PatchDoc { get; set; }
+
+        public PatchStudentCommand(int student, JsonPatchDocument<StudentForUpdateDto> patchDoc)
+        {
+            StudentId = student;
+            PatchDoc = patchDoc;
+        }
     }
 
     public class PatchStudentHandler : IRequestHandler<PatchStudentCommand, Response<bool>>
     {
-        private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _repository;
+        private readonly IAuditRepository<CoreDBContext, Student> _repository;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PatchStudentHandler(IAuditRepositoryGeneric<CoreDBContext, Student> repository
-            , IMapper mapper
-            , IHttpContextAccessor httpContextAccessor)
+        public PatchStudentHandler(IAuditRepository<CoreDBContext, Student> repository
+            , IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Response<bool>> Handle(PatchStudentCommand request, CancellationToken cancellationToken)
         {
-            var student = _mapper.Map<Student>(request);
-            _repository.Insert(student);
-            if (await _repository.UnitOfWork.SaveEntitiesAsync())
+            var studentToUpdate = await _repository.FirstOrDefaultAsync(request.StudentId);
+            if (studentToUpdate == null)
             {
-                return new Response<bool>(true);
+                return new Response<bool>(HttpStatusCode.NotFound, new DataNotFoundError("Key"));
             }
-            else
+
+            var studentToPatch = _mapper.Map<StudentForUpdateDto>(studentToUpdate);
+            request.PatchDoc.ApplyTo(studentToPatch);
+
+            var validationResults = new PatchStudentValidation().Validate(studentToPatch);
+            if (!validationResults.IsValid)
             {
-                return null;
+                throw new ValidationException(validationResults.Errors);
             }
+
+            _mapper.Map(studentToPatch, studentToUpdate);
+
+            return new Response<bool>(await _repository.UnitOfWork.SaveEntitiesAsync());
         }
     }
 }

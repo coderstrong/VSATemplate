@@ -16,9 +16,9 @@ namespace Org.VSATemplate.Application.Features.Students
 
     public class StudentQueryHandler : IRequestHandler<StudentQuery, IResponse<StudentDto>>
     {
-        private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _repository;
+        private readonly IAuditRepository<CoreDBContext, Student> _repository;
 
-        public StudentQueryHandler(IAuditRepositoryGeneric<CoreDBContext, Student> repository)
+        public StudentQueryHandler(IAuditRepository<CoreDBContext, Student> repository)
         {
             _repository = repository;
         }

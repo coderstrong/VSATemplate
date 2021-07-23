@@ -9,7 +9,7 @@ using Org.VSATemplate.Infrastructure.Database;
 using Org.VSATemplate.WebApi.Configs;
 using System.Collections.Generic;
 using System.Reflection;
-
+using System.Linq;
 namespace Org.VSATemplate.WebApi
 {
     public class Startup
@@ -37,7 +37,7 @@ namespace Org.VSATemplate.WebApi
             services.AddHealthChecks();
             services.AddAuthenticationExtension();
             services.AddApiVersioningExtension();
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetEntryAssembly().GetReferencedAssemblies().Where(e => e.Name.EndsWith(".Application")).Select(e => Assembly.Load(e)));
             services.AddControllers();
         }
 

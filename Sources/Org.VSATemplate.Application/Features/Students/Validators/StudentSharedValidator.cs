@@ -9,6 +9,7 @@ namespace Org.VSATemplate.Domain.Students.Validators
         {
             // add fluent validation rules that should be shared between creation and update operations here
             //https://fluentvalidation.net/
+            RuleFor(command => command.Note).NotEmpty().WithMessage("not found");
 
         }
     }

@@ -1,28 +1,49 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MakeSimple.SharedKernel.Contract;
 using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MakeSimple.SharedKernel.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Org.VSATemplate.Domain.Entities;
+using Microsoft.Extensions.Logging;
 using Org.VSATemplate.Domain.Dtos.Student;
+using Org.VSATemplate.Domain.Entities;
+using Org.VSATemplate.Domain.Students.Validators;
 using Org.VSATemplate.Infrastructure.Database;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
-    public class AddStudentCommand : StudentForCreationDto, IRequest<IResponse<StudentDto>>
+    public class AddStudentCommand : IRequest<IResponse<StudentDto>>
     {
+        public StudentForCreationDto Data { get; }
+
+        public AddStudentCommand(StudentForCreationDto data)
+        {
+            Data = data;
+        }
+    }
+
+    public class CreateStudentValidation : AbstractValidator<AddStudentCommand>
+    {
+        public CreateStudentValidation(ILogger<CreateStudentValidation> logger)
+        {
+            logger.LogTrace("INSTANCE CREATED - {ClassName}", GetType().Name);
+            RuleFor(command => command.Data).SetInheritanceValidator(v =>
+            {
+                v.Add<StudentForCreationDto>(new StudentForCreationDtoValidation(logger));
+            });
+        }
     }
 
     public class AddStudentHandler : IRequestHandler<AddStudentCommand, IResponse<StudentDto>>
     {
-        private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _repository;
+        private readonly IAuditRepository<CoreDBContext, Student> _repository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AddStudentHandler(IAuditRepositoryGeneric<CoreDBContext, Student> repository
+        public AddStudentHandler(IAuditRepository<CoreDBContext, Student> repository
             , IMapper mapper
             , IHttpContextAccessor httpContextAccessor)
         {
@@ -33,7 +54,7 @@ namespace Org.VSATemplate.Application.Features.Students
 
         public async Task<IResponse<StudentDto>> Handle(AddStudentCommand request, CancellationToken cancellationToken)
         {
-            var student = _mapper.Map<Student>(request);
+            var student = _mapper.Map<Student>(request.Data);
             _repository.Insert(student);
             if (await _repository.UnitOfWork.SaveEntitiesAsync())
             {

@@ -2,31 +2,43 @@
 using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Org.VSATemplate.Application.Features.Students;
 using Org.VSATemplate.Domain.Dtos.Student;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Org.VSATemplate.WebApi.Controllers.v1
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ApiController]
     [ApiVersion("1.0")]
-    public class ClassesController : ControllerApiBase
+    public class StudentController : ControllerApiBase
     {
         private readonly IMediator _mediator;
 
-        public ClassesController(IMediator mediator)
+        /// <summary>
+        /// 
+        /// </summary>
+        public StudentController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpGet("{id}")]
+        /// <summary>
+        /// Gets a list of all Ingredients.
+        /// </summary>
+        /// <response code="200">Student list returned successfully.</response>
+        /// <response code="400">Student has missing/invalid values.</response>
+        /// <response code="500">There was an error on the server while proccess.</response>
+        /// <remarks>
+        [HttpGet("{Id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> Get([FromRoute] StudentQuery query)
+        public async Task<IActionResult> GetAsync([FromRoute] StudentQuery query)
         {
-            return Ok();
-            //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
+            return ResultDTO(await _mediator.Send(query));
         }
 
         /// <summary>
@@ -59,32 +71,58 @@ namespace Org.VSATemplate.WebApi.Controllers.v1
         /// </remarks>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Get([FromQuery] PaginationQueryt query)
+        public async Task<IActionResult> Get([FromQuery] StudentListQuery query)
+        {
+            return ResultDTO(await _mediator.Send(query));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(Response<StudentDto>), 200)]
+        [ProducesResponseType(typeof(bool), 400)]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Post(StudentForCreationDto request)
+        {
+            return ResultDTO(await _mediator.Send(new AddStudentCommand(request)));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Put([FromRoute] long id, [FromBody] StudentForUpdateDto request)
+        {
+            return ResultDTO(await _mediator.Send(new UpdateStudentCommand(id, request)));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="patchDoc"></param>
+        /// <returns></returns>
+        [HttpPatch("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Patch([FromRoute] long id, [FromBody] JsonPatchDocument<StudentForUpdateDto> patchDoc)
         {
             return Ok();
             //return ResultDTO(new Response<bool>(true) { StatusCode = System.Net.HttpStatusCode.OK });
         }
 
-        [ProducesResponseType(typeof(Response<StudentDto>), 200)]
-        [ProducesResponseType(typeof(bool), 400)]
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Post(AddStudentCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return ResultDTO(result);
-        }
-
-        [HttpPut("{id}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Put([FromRoute] long id, [FromBody] UpdateStudentCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return ResultDTO(result);
-            return ResultDTO(new PaginatedList<bool>(new List<bool> { true, false }, 2));
-        }
-
-        [HttpDelete("{id}")]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{Id}")]
         [AllowAnonymous]
         public async Task<IActionResult> Delete([FromRoute] DeleteStudentCommand id)
         {

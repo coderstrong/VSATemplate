@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using MakeSimple.SharedKernel.Contract;
+﻿using MakeSimple.SharedKernel.Contract;
+using MakeSimple.SharedKernel.Wrappers;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Org.VSATemplate.Domain.Dtos.Student;
 using Org.VSATemplate.Domain.Entities;
 using Org.VSATemplate.Infrastructure.Database;
@@ -10,38 +9,23 @@ using System.Threading.Tasks;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
-    public class StudentListQuery : StudentParametersDto, IRequest<StudentDto>
+    public class StudentListQuery : StudentParametersDto, IRequest<IPaginatedList<StudentDto>>
     {
 
     }
 
-    public class StudentListQueryHandler : IRequestHandler<StudentListQuery, StudentDto>
+    public class StudentListQueryHandler : IRequestHandler<StudentListQuery, IPaginatedList<StudentDto>>
     {
-        private readonly IAuditRepositoryGeneric<CoreDBContext, Student> _repository;
-        private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAuditRepository<CoreDBContext, Student> _repository;
 
-        public StudentListQueryHandler(IAuditRepositoryGeneric<CoreDBContext, Student> repository
-            , IMapper mapper
-            , IHttpContextAccessor httpContextAccessor)
+        public StudentListQueryHandler(IAuditRepository<CoreDBContext, Student> repository)
         {
             _repository = repository;
-            _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<StudentDto> Handle(StudentListQuery request, CancellationToken cancellationToken)
+        public async Task<IPaginatedList<StudentDto>> Handle(StudentListQuery request, CancellationToken cancellationToken)
         {
-            var student = _mapper.Map<Student>(request);
-            _repository.Insert(student);
-            if (await _repository.UnitOfWork.SaveEntitiesAsync())
-            {
-                return _mapper.Map<StudentDto>(student);
-            }
-            else
-            {
-                return null;
-            }
+            return await _repository.ToListAsync<StudentDto>(paging: request, expandSorts: request.SortOrder, expandFilters: request.Filters);
         }
     }
 }
