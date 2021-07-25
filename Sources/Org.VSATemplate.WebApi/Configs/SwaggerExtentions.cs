@@ -23,7 +23,8 @@ namespace Org.VSATemplate.WebApi.Configs
                     {
                         Title = "ProjectName",
                         Version = $"v{assembly.GetName().Version}",
-                        Description = $"Deployed at {assembly.GetCreationTime():dd/MM/yyyy HH:mm:ssK}",
+                        Description = $"Manage everything in your ProjectName" +
+                        $"</br>Deployed at {assembly.GetCreationTime():dd/MM/yyyy HH:mm:ssK}",
                         Contact = new OpenApiContact
                         {
                             Name = "ProjectName Support",
