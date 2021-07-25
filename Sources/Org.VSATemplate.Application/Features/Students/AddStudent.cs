@@ -5,7 +5,6 @@ using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MakeSimple.SharedKernel.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Org.VSATemplate.Domain.Dtos.Student;
 using Org.VSATemplate.Domain.Entities;
 using Org.VSATemplate.Domain.Students.Validators;
@@ -27,12 +26,11 @@ namespace Org.VSATemplate.Application.Features.Students
 
     public class CreateStudentValidation : AbstractValidator<AddStudentCommand>
     {
-        public CreateStudentValidation(ILogger<CreateStudentValidation> logger)
+        public CreateStudentValidation()
         {
-            logger.LogTrace("INSTANCE CREATED - {ClassName}", GetType().Name);
             RuleFor(command => command.Data).SetInheritanceValidator(v =>
             {
-                v.Add<StudentForCreationDto>(new StudentForCreationDtoValidation(logger));
+                v.Add<StudentForCreationDto>(new StudentForCreationDtoValidation());
             });
         }
     }

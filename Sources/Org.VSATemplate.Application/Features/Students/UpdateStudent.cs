@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MakeSimple.SharedKernel.Contract;
 using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MakeSimple.SharedKernel.Wrappers;
 using MediatR;
 using Org.VSATemplate.Domain.Dtos.Student;
 using Org.VSATemplate.Domain.Entities;
+using Org.VSATemplate.Domain.Students.Validators;
 using Org.VSATemplate.Infrastructure.Database;
 using System.Net;
 using System.Threading;
@@ -21,6 +23,17 @@ namespace Org.VSATemplate.Application.Features.Students
         {
             Id = id;
             Data = data;
+        }
+    }
+
+    public class UpdateStudentValidation : AbstractValidator<UpdateStudentCommand>
+    {
+        public UpdateStudentValidation()
+        {
+            RuleFor(command => command.Data).SetInheritanceValidator(v =>
+            {
+                v.Add<StudentForUpdateDto>(new StudentForUpdateDtoValidation());
+            });
         }
     }
 

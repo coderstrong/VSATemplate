@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentValidation;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
     using MakeSimple.SharedKernel.Contract;
     using MakeSimple.SharedKernel.Infrastructure.DTO;
-    using Org.VSATemplate.Application.Features.Students.Validators;
     using Org.VSATemplate.Domain.Dtos.Student;
     using Org.VSATemplate.Domain.Entities;
+    using Org.VSATemplate.Domain.Students.Validators;
     using Org.VSATemplate.Infrastructure.Database;
 
     public class PatchStudentCommand : IRequest<Response<bool>>
@@ -20,9 +20,9 @@ namespace Org.VSATemplate.Application.Features.Students
         public long StudentId { get; set; }
         public JsonPatchDocument<StudentForUpdateDto> PatchDoc { get; set; }
 
-        public PatchStudentCommand(int student, JsonPatchDocument<StudentForUpdateDto> patchDoc)
+        public PatchStudentCommand(long studentId, JsonPatchDocument<StudentForUpdateDto> patchDoc)
         {
-            StudentId = student;
+            StudentId = studentId;
             PatchDoc = patchDoc;
         }
     }
@@ -50,7 +50,7 @@ namespace Org.VSATemplate.Application.Features.Students
             var studentToPatch = _mapper.Map<StudentForUpdateDto>(studentToUpdate);
             request.PatchDoc.ApplyTo(studentToPatch);
 
-            var validationResults = new PatchStudentValidation().Validate(studentToPatch);
+            var validationResults = new StudentForUpdateDtoValidation().Validate(studentToPatch);
             if (!validationResults.IsValid)
             {
                 throw new ValidationException(validationResults.Errors);

@@ -12,6 +12,11 @@ namespace Org.VSATemplate.Application.Features.Students
     public class StudentQuery : IRequest<IResponse<StudentDto>>
     {
         public long Id { get; set; }
+
+        public StudentQuery(long id)
+        {
+            Id = id;
+        }
     }
 
     public class StudentQueryHandler : IRequestHandler<StudentQuery, IResponse<StudentDto>>

@@ -3,9 +3,9 @@ using Org.VSATemplate.Domain.Dtos.Student;
 
 namespace Org.VSATemplate.Domain.Students.Validators
 {
-    public class StudentForCreationDtoValidation : StudentSharedValidator<StudentForCreationDto>
+    public class StudentForUpdateDtoValidation : StudentSharedValidator<StudentForUpdateDto>
     {
-        public StudentForCreationDtoValidation()
+        public StudentForUpdateDtoValidation()
         {
             RuleFor(command => command.Name).NotEmpty().WithMessage("Name not found");
         }

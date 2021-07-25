@@ -11,7 +11,6 @@ namespace Org.VSATemplate.Application.Features.Students
 {
     public class StudentListQuery : StudentParametersDto, IRequest<IPaginatedList<StudentDto>>
     {
-
     }
 
     public class StudentListQueryHandler : IRequestHandler<StudentListQuery, IPaginatedList<StudentDto>>

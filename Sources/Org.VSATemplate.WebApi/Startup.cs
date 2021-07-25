@@ -8,12 +8,15 @@ using Microsoft.Extensions.Hosting;
 using Org.VSATemplate.Infrastructure.Database;
 using Org.VSATemplate.WebApi.Configs;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
+
 namespace Org.VSATemplate.WebApi
 {
     public class Startup
     {
+        private const string applicationModule = ".Application";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -22,7 +25,7 @@ namespace Org.VSATemplate.WebApi
             services.AddMediaRModule(new MediaROptions()
             {
                 OnValidatorPipeline = true,
-                EndWithPattern = new List<string>() { ".Application" }
+                EndWithPattern = new List<string>() { applicationModule }
             });
             services.AddEfDbContext<CoreDBContext>();
 
@@ -37,8 +40,8 @@ namespace Org.VSATemplate.WebApi
             services.AddHealthChecks();
             services.AddAuthenticationExtension();
             services.AddApiVersioningExtension();
-            services.AddAutoMapper(Assembly.GetEntryAssembly().GetReferencedAssemblies().Where(e => e.Name.EndsWith(".Application")).Select(e => Assembly.Load(e)));
-            services.AddControllers();
+            services.AddAutoMapper(Assembly.GetEntryAssembly().GetReferencedAssemblies().Where(e => e.Name.EndsWith(applicationModule)).Select(e => Assembly.Load(e)));
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
