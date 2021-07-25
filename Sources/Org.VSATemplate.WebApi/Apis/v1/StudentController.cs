@@ -8,34 +8,30 @@ using Org.VSATemplate.Application.Features.Students;
 using Org.VSATemplate.Domain.Dtos.Student;
 using System.Threading.Tasks;
 
-namespace Org.VSATemplate.WebApi.Controllers.v1
+namespace Org.VSATemplate.WebApi.Apis.v1
 {
-    /// <summary>
-    ///
-    /// </summary>
     [ApiController]
     [ApiVersion("1.0")]
     public class StudentController : ControllerApiBase
     {
         private readonly IMediator _mediator;
 
-        /// <summary>
-        ///
-        /// </summary>
         public StudentController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         /// <summary>
-        /// Gets a list of all Students.
+        /// Gets a single Student by ID.
         /// </summary>
-        /// <response code="200">Student list returned successfully.</response>
+        /// <response code="200">Student record returned successfully.</response>
         /// <response code="400">Student has missing/invalid values.</response>
-        /// <response code="500">There was an error on the server while proccess.</response>
-        /// <remarks>
+        /// <response code="500">There was an error on the server while creating the Student.</response>
         [HttpGet("{studentId}")]
         [AllowAnonymous]
+        [ProducesResponseType(typeof(Response<StudentDto>), 200)]
+        [ProducesResponseType(typeof(Response<>), 400)]
+        [ProducesResponseType(typeof(Response<>), 500)]
         public async Task<IActionResult> GetAsync(long studentId)
         {
             return ResultDTO(await _mediator.Send(new StudentQuery(studentId)));
@@ -71,19 +67,25 @@ namespace Org.VSATemplate.WebApi.Controllers.v1
         /// </remarks>
         [HttpGet]
         [AllowAnonymous]
+        [ProducesResponseType(typeof(PaginatedList<StudentDto>), 200)]
+        [ProducesResponseType(typeof(Response<>), 400)]
+        [ProducesResponseType(typeof(Response<>), 500)]
         public async Task<IActionResult> Get([FromQuery] StudentListQuery query)
         {
             return ResultDTO(await _mediator.Send(query));
         }
 
         /// <summary>
-        ///
+        /// Creates a new Student record.
         /// </summary>
-        /// <returns></returns>
-        [ProducesResponseType(typeof(Response<StudentDto>), 200)]
-        [ProducesResponseType(typeof(bool), 400)]
+        /// <response code="200">Student created.</response>
+        /// <response code="400">Student has missing/invalid values.</response>
+        /// <response code="500">There was an error on the server while creating the Student.</response>
         [HttpPost]
         [AllowAnonymous]
+        [ProducesResponseType(typeof(Response<StudentDto>), 200)]
+        [ProducesResponseType(typeof(Response<>), 400)]
+        [ProducesResponseType(typeof(Response<>), 500)]
         [Consumes("application/json")]
         [Produces("application/json")]
         public async Task<IActionResult> Post([FromBody] StudentForCreationDto request)
@@ -92,11 +94,16 @@ namespace Org.VSATemplate.WebApi.Controllers.v1
         }
 
         /// <summary>
-        ///
+        /// Updates an entire existing Student.
         /// </summary>
-        /// <returns></returns>
+        /// <response code="204">Student updated.</response>
+        /// <response code="400">Student has missing/invalid values.</response>
+        /// <response code="500">There was an error on the server while creating the Student.</response>
         [HttpPut("{studentId}")]
         [AllowAnonymous]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(typeof(Response<>), 400)]
+        [ProducesResponseType(typeof(Response<>), 500)]
         [Consumes("application/json")]
         [Produces("application/json")]
         public async Task<IActionResult> Put(long studentId, [FromBody] StudentForUpdateDto request)
@@ -105,27 +112,34 @@ namespace Org.VSATemplate.WebApi.Controllers.v1
         }
 
         /// <summary>
-        ///
+        /// Updates specific properties on an existing Student.
         /// </summary>
-        /// <returns></returns>
+        /// <response code="204">Student updated.</response>
+        /// <response code="400">Student has missing/invalid values.</response>
+        /// <response code="500">There was an error on the server while creating the Student.</response>
         [HttpPatch("{studentId}")]
+        [AllowAnonymous]
         [ProducesResponseType(204)]
-        [ProducesResponseType(typeof(Response<bool>), 400)]
-        [ProducesResponseType(500)]
+        [ProducesResponseType(typeof(Response<>), 400)]
+        [ProducesResponseType(typeof(Response<>), 500)]
         [Consumes("application/json")]
         [Produces("application/json")]
-        [AllowAnonymous]
         public async Task<IActionResult> Patch(long studentId, [FromBody] JsonPatchDocument<StudentForUpdateDto> patchDoc)
         {
             return ResultDTO(await _mediator.Send(new PatchStudentCommand(studentId, patchDoc)));
         }
 
         /// <summary>
-        ///
+        /// Deletes an existing Student record.
         /// </summary>
-        /// <returns></returns>
+        /// <response code="204">Student deleted.</response>
+        /// <response code="400">Student has missing/invalid values.</response>
+        /// <response code="500">There was an error on the server while creating the Student.</response>
         [HttpDelete("{studentId}")]
         [AllowAnonymous]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(typeof(Response<>), 400)]
+        [ProducesResponseType(typeof(Response<>), 500)]
         public async Task<IActionResult> Delete(long studentId)
         {
             return ResultDTO(await _mediator.Send(new DeleteStudentCommand(studentId)));
