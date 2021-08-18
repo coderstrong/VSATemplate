@@ -29,7 +29,7 @@ namespace Org.VSATemplate.WebApi.Apis.v1
         /// <response code="500">There was an error on the server while creating the Student.</response>
         [HttpGet("{studentId}")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(Response<StudentDto>), 200)]
+        [ProducesResponseType(typeof(Response<ClassDto>), 200)]
         [ProducesResponseType(typeof(Response<>), 400)]
         [ProducesResponseType(typeof(Response<>), 500)]
         public async Task<IActionResult> GetAsync(long studentId)
@@ -67,7 +67,7 @@ namespace Org.VSATemplate.WebApi.Apis.v1
         /// </remarks>
         [HttpGet]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(PaginatedList<StudentDto>), 200)]
+        [ProducesResponseType(typeof(PaginatedList<ClassDto>), 200)]
         [ProducesResponseType(typeof(Response<>), 400)]
         [ProducesResponseType(typeof(Response<>), 500)]
         public async Task<IActionResult> Get([FromQuery] StudentListQuery query)
@@ -83,12 +83,12 @@ namespace Org.VSATemplate.WebApi.Apis.v1
         /// <response code="500">There was an error on the server while creating the Student.</response>
         [HttpPost]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(Response<StudentDto>), 200)]
+        [ProducesResponseType(typeof(Response<ClassDto>), 200)]
         [ProducesResponseType(typeof(Response<>), 400)]
         [ProducesResponseType(typeof(Response<>), 500)]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> Post([FromBody] StudentForCreationDto request)
+        public async Task<IActionResult> Post([FromBody] ClassForCreationDto request)
         {
             return ResultDTO(await _mediator.Send(new AddStudentCommand(request)));
         }
@@ -106,7 +106,7 @@ namespace Org.VSATemplate.WebApi.Apis.v1
         [ProducesResponseType(typeof(Response<>), 500)]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> Put(long studentId, [FromBody] StudentForUpdateDto request)
+        public async Task<IActionResult> Put(long studentId, [FromBody] ClassForUpdateDto request)
         {
             return ResultDTO(await _mediator.Send(new UpdateStudentCommand(studentId, request)));
         }
@@ -124,7 +124,7 @@ namespace Org.VSATemplate.WebApi.Apis.v1
         [ProducesResponseType(typeof(Response<>), 500)]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> Patch(long studentId, [FromBody] JsonPatchDocument<StudentForUpdateDto> patchDoc)
+        public async Task<IActionResult> Patch(long studentId, [FromBody] JsonPatchDocument<ClassForUpdateDto> patchDoc)
         {
             return ResultDTO(await _mediator.Send(new PatchStudentCommand(studentId, patchDoc)));
         }

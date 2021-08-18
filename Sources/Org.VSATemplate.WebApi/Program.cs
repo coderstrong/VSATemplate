@@ -15,7 +15,6 @@ namespace Org.VSATemplate.WebApi
         {
             Activity.DefaultIdFormat = ActivityIdFormat.W3C;
             var host = CreateHostBuilder(args).Build();
-            using var scope = host.Services.CreateScope();
 
             try
             {

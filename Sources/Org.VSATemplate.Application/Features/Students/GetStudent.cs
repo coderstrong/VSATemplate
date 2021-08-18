@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
-    public class StudentQuery : IRequest<IResponse<StudentDto>>
+    public class StudentQuery : IRequest<IResponse<ClassDto>>
     {
         public long Id { get; set; }
 
@@ -19,7 +19,7 @@ namespace Org.VSATemplate.Application.Features.Students
         }
     }
 
-    public class StudentQueryHandler : IRequestHandler<StudentQuery, IResponse<StudentDto>>
+    public class StudentQueryHandler : IRequestHandler<StudentQuery, IResponse<ClassDto>>
     {
         private readonly IAuditRepository<CoreDBContext, Student> _repository;
 
@@ -28,9 +28,9 @@ namespace Org.VSATemplate.Application.Features.Students
             _repository = repository;
         }
 
-        public async Task<IResponse<StudentDto>> Handle(StudentQuery request, CancellationToken cancellationToken)
+        public async Task<IResponse<ClassDto>> Handle(StudentQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.FirstOrDefaultAsync<StudentDto>(request.Id);
+            return await _repository.FirstOrDefaultAsync<ClassDto>(request.Id);
         }
     }
 }

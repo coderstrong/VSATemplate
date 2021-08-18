@@ -18,9 +18,9 @@ namespace Org.VSATemplate.Application.Features.Students
     public class PatchStudentCommand : IRequest<Response<bool>>
     {
         public long StudentId { get; set; }
-        public JsonPatchDocument<StudentForUpdateDto> PatchDoc { get; set; }
+        public JsonPatchDocument<ClassForUpdateDto> PatchDoc { get; set; }
 
-        public PatchStudentCommand(long studentId, JsonPatchDocument<StudentForUpdateDto> patchDoc)
+        public PatchStudentCommand(long studentId, JsonPatchDocument<ClassForUpdateDto> patchDoc)
         {
             StudentId = studentId;
             PatchDoc = patchDoc;
@@ -47,7 +47,7 @@ namespace Org.VSATemplate.Application.Features.Students
                 return new Response<bool>(HttpStatusCode.NotFound, new DataNotFoundError("Key"));
             }
 
-            var studentToPatch = _mapper.Map<StudentForUpdateDto>(studentToUpdate);
+            var studentToPatch = _mapper.Map<ClassForUpdateDto>(studentToUpdate);
             request.PatchDoc.ApplyTo(studentToPatch);
 
             var validationResults = new StudentForUpdateDtoValidation().Validate(studentToPatch);

@@ -11,6 +11,7 @@ namespace Org.VSATemplate.Domain.Entities
 
         public string Note { get; set; }
 
-        public virtual ICollection<Student> Students { get; set; }
+        public long StudentId { get; set; }
+        public virtual Student Student { get; set; }
     }
 }

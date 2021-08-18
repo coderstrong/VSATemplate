@@ -1,15 +1,17 @@
 ﻿using MakeSimple.SharedKernel.Contract;
-using System;
+using Sieve.Attributes;
+using System.Collections.Generic;
 
 namespace Org.VSATemplate.Domain.Entities
 {
     public class Student : AuditEntity<long>
     {
+        [Sieve(CanFilter = true, CanSort = true)]
         public string Name { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public string Note { get; set; }
 
-        public virtual Class Class { get; set; }
-        public Guid ClassId { get; set; }
+        public virtual ICollection<Class> Classes { get; set; }
     }
 }

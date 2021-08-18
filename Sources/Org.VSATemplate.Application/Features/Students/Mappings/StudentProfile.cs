@@ -9,10 +9,10 @@ namespace Org.VSATemplate.Domain.Students.Mappings
         public StudentProfile()
         {
             //createmap<to this, from this>
-            CreateMap<Student, StudentDto>()
+            CreateMap<Student, ClassDto>()
                 .ReverseMap();
-            CreateMap<StudentForCreationDto, Student>();
-            CreateMap<StudentForUpdateDto, Student>()
+            CreateMap<ClassForCreationDto, Student>();
+            CreateMap<ClassForUpdateDto, Student>()
                 .ReverseMap();
         }
     }

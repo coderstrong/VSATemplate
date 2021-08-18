@@ -23,7 +23,7 @@ namespace Org.VSATemplate.Infrastructure.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase("ForTest");
+            optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=VSATemplate;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

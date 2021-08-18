@@ -18,6 +18,10 @@ namespace Org.VSATemplate.WebApi.Configs
 
             services.AddSwaggerGen(s =>
             {
+                s.AddServer(new OpenApiServer
+                {
+                    Url = "/"
+                });
                 s.SwaggerDoc("v1"
                     , new OpenApiInfo
                     {
@@ -69,7 +73,7 @@ namespace Org.VSATemplate.WebApi.Configs
             {
                 c.SwaggerEndpoint("v1/swagger.json", "ProjectName v1");
                 c.RoutePrefix = "swagger";
-                c.DefaultModelsExpandDepth(-1);
+                c.DefaultModelsExpandDepth(2);
             });
 
             return app;

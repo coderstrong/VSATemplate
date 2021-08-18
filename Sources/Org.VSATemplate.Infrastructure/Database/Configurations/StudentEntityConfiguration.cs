@@ -9,6 +9,7 @@ namespace Org.VSATemplate.Infrastructure.Database.Configurations
         public void Configure(EntityTypeBuilder<Student> builder)
         {
             builder.HasKey(m => m.Id);
+            builder.HasMany(e => e.Classes).WithOne(e => e.Student).HasForeignKey(e => e.StudentId);
         }
     }
 }

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
-    public class StudentListQuery : StudentParametersDto, IRequest<IPaginatedList<StudentDto>>
+    public class StudentListQuery : ClassParametersDto, IRequest<IPaginatedList<ClassDto>>
     {
     }
 
-    public class StudentListQueryHandler : IRequestHandler<StudentListQuery, IPaginatedList<StudentDto>>
+    public class StudentListQueryHandler : IRequestHandler<StudentListQuery, IPaginatedList<ClassDto>>
     {
         private readonly IAuditRepository<CoreDBContext, Student> _repository;
 
@@ -22,9 +22,9 @@ namespace Org.VSATemplate.Application.Features.Students
             _repository = repository;
         }
 
-        public async Task<IPaginatedList<StudentDto>> Handle(StudentListQuery request, CancellationToken cancellationToken)
+        public async Task<IPaginatedList<ClassDto>> Handle(StudentListQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.ToListAsync<StudentDto>(paging: request, expandSorts: request.SortOrder, expandFilters: request.Filters);
+            return await _repository.ToListAsync<ClassDto>(paging: request, expandSorts: request.SortOrder, expandFilters: request.Filters);
         }
     }
 }
