@@ -88,7 +88,7 @@ namespace Org.VSATemplate.WebApi.Apis.v1
         [ProducesResponseType(typeof(Response<>), 500)]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> Post([FromBody] ClassForCreationDto request)
+        public async Task<IActionResult> Post([FromBody] StudentForCreationDto request)
         {
             return ResultDTO(await _mediator.Send(new AddStudentCommand(request)));
         }
@@ -106,7 +106,7 @@ namespace Org.VSATemplate.WebApi.Apis.v1
         [ProducesResponseType(typeof(Response<>), 500)]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> Put(long studentId, [FromBody] ClassForUpdateDto request)
+        public async Task<IActionResult> Put(long studentId, [FromBody] StudentForUpdateDto request)
         {
             return ResultDTO(await _mediator.Send(new UpdateStudentCommand(studentId, request)));
         }
@@ -124,7 +124,7 @@ namespace Org.VSATemplate.WebApi.Apis.v1
         [ProducesResponseType(typeof(Response<>), 500)]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> Patch(long studentId, [FromBody] JsonPatchDocument<ClassForUpdateDto> patchDoc)
+        public async Task<IActionResult> Patch(long studentId, [FromBody] JsonPatchDocument<StudentForUpdateDto> patchDoc)
         {
             return ResultDTO(await _mediator.Send(new PatchStudentCommand(studentId, patchDoc)));
         }

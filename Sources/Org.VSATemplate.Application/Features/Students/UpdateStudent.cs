@@ -17,9 +17,9 @@ namespace Org.VSATemplate.Application.Features.Students
     public class UpdateStudentCommand : IRequest<IResponse<bool>>
     {
         public long Id { get; }
-        public ClassForUpdateDto Data { get; }
+        public StudentForUpdateDto Data { get; }
 
-        public UpdateStudentCommand(long id, ClassForUpdateDto data)
+        public UpdateStudentCommand(long id, StudentForUpdateDto data)
         {
             Id = id;
             Data = data;
@@ -32,7 +32,7 @@ namespace Org.VSATemplate.Application.Features.Students
         {
             RuleFor(command => command.Data).SetInheritanceValidator(v =>
             {
-                v.Add<ClassForUpdateDto>(new StudentForUpdateDtoValidation());
+                v.Add<StudentForUpdateDto>(new StudentForUpdateDtoValidation());
             });
         }
     }

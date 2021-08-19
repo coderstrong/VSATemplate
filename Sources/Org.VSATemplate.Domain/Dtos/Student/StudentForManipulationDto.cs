@@ -8,6 +8,6 @@ namespace Org.VSATemplate.Domain.Dtos.Student
 
         public string Note { get; set; }
 
-        public List<ClassForManipulationDto> Classes { get; set; }
+        public virtual ICollection<ClassForCreationDto> Classes { get; set; }
     }
 }

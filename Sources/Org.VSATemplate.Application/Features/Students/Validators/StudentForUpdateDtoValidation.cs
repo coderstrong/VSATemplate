@@ -3,7 +3,7 @@ using Org.VSATemplate.Domain.Dtos.Student;
 
 namespace Org.VSATemplate.Domain.Students.Validators
 {
-    public class StudentForUpdateDtoValidation : StudentSharedValidator<ClassForUpdateDto>
+    public class StudentForUpdateDtoValidation : StudentSharedValidator<StudentForUpdateDto>
     {
         public StudentForUpdateDtoValidation()
         {

@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace Org.VSATemplate.Application.Features.Students
 {
-    public class AddStudentCommand : IRequest<IResponse<ClassDto>>
+    public class AddStudentCommand : IRequest<IResponse<StudentDto>>
     {
-        public ClassForCreationDto Data { get; }
+        public StudentForCreationDto Data { get; }
 
-        public AddStudentCommand(ClassForCreationDto data)
+        public AddStudentCommand(StudentForCreationDto data)
         {
             Data = data;
         }
@@ -30,12 +30,12 @@ namespace Org.VSATemplate.Application.Features.Students
         {
             RuleFor(command => command.Data).SetInheritanceValidator(v =>
             {
-                v.Add<ClassForCreationDto>(new StudentForCreationDtoValidation());
+                v.Add<StudentForCreationDto>(new StudentForCreationDtoValidation());
             });
         }
     }
 
-    public class AddStudentHandler : IRequestHandler<AddStudentCommand, IResponse<ClassDto>>
+    public class AddStudentHandler : IRequestHandler<AddStudentCommand, IResponse<StudentDto>>
     {
         private readonly IAuditRepository<CoreDBContext, Student> _repository;
         private readonly IMapper _mapper;
@@ -50,13 +50,13 @@ namespace Org.VSATemplate.Application.Features.Students
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IResponse<ClassDto>> Handle(AddStudentCommand request, CancellationToken cancellationToken)
+        public async Task<IResponse<StudentDto>> Handle(AddStudentCommand request, CancellationToken cancellationToken)
         {
             var student = _mapper.Map<Student>(request.Data);
             _repository.Insert(student);
             if (await _repository.UnitOfWork.SaveEntitiesAsync())
             {
-                return new Response<ClassDto>(_mapper.Map<ClassDto>(student));
+                return new Response<StudentDto>(_mapper.Map<StudentDto>(student));
             }
             else
             {
