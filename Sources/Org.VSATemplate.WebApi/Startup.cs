@@ -21,7 +21,6 @@ namespace Org.VSATemplate.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRestClientCore();
             services.AddMediaRModule(new MediaROptions()
             {
                 OnValidatorPipeline = true,
@@ -52,7 +51,6 @@ namespace Org.VSATemplate.WebApi
                 app.UseDeveloperExceptionPage();
             }
             app.UseExceptionHandler("/Error");
-            app.UseExceptionHandlerCore();
             app.UseSwaggerDocs();
             app.UseRouting();
             app.UseAuthorization();

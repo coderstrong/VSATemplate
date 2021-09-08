@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 namespace Org.VSATemplate.Domain.Entities
 {
-    public class Student : AuditEntity<long>
+    public class Student : AuditEntity
     {
+        public long Id { get; set; }
         [Sieve(CanFilter = true, CanSort = true)]
         public string Name { get; set; }
 

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 namespace Org.VSATemplate.Domain.Entities
 {
-    public class Class : Entity<Guid>
+    public class Class : Entity
     {
+        public Guid Id { get; set; }
         public string ClassCode { get; set; }
         public string Name { get; set; }
 
